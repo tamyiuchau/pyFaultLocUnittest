@@ -5,7 +5,7 @@ import inspect
 import os
 import os.path
 from importlib.util import find_spec
-from functools import reduce
+from functools import reduce,lru_cache
 from itertools import groupby
 from collections import Counter
 
@@ -152,20 +152,89 @@ class Tarantula(FaultLocalizationResult):
         #print(r)
         return result
 class Crosstab(FaultLocalizationResult):
+    @property
+    @lru_cache()
+    def grouped_lines(self):
+        r = {}
+        for k,g in groupby(list(self.result.items()),lambda x:x[1]["status"]):
+            g = map(lambda x:set(x[1]["lines"]),g)
+            r[k] = list(g)
+        return r
+    #defined function notation
+    #use @lru_cache for caching result
+    @property
+    @lru_cache()
+    def N(self):
+        N = self.testsRun - len(self.skipped)
+        return N
+    @property
+    @lru_cache()
+    def Nf(self):
+        Nf = len(self.failures)+len(self.errors) #total number of failed test cases
+        return Nf
+    @property
+    @lru_cache()
+    def Ns(self):
+        Ns = self.N-self.Nf
+        return Ns
+    @lru_cache()
+    def Ncf(self,line):
+        return len(tuple(filter(lambda x:line in x,self.grouped_lines["failed"])))
+    @lru_cache()
+    def Ncs(self,line):
+        return len(tuple(filter(lambda x:line in x,self.grouped_lines["success"])))
+    @lru_cache()
+    def Nc(self,line):
+        return self.Ncf(line)+self.Ncs(line)
+    @lru_cache()
+    def Nuf(self,line):
+        return len(tuple(filter(lambda x:not line in x,self.grouped_lines["failed"])))
+    @lru_cache()
+    def Nus(self,line):
+        return len(tuple(filter(lambda x:not line in x,self.grouped_lines["success"])))
+    @lru_cache()
+    def Nu(self,line):
+        return self.Nuf(line)+self.Nus(line)
+    @lru_cache()
+    def chi2(self,line):
+        try:
+            Ecf = self.Nc(line)*self.Nf/self.N
+            Ecs = self.Nc(line)*self.Ns/self.N
+            Euf = self.Nu(line)*self.Nf/self.N
+            Eus = self.Nu(line)*self.Ns/self.N
+            chi2 =  (self.Ncf(line)-Ecf)**2/Ecf + \
+                    (self.Ncs(line)-Ecs)**2/Ecs + \
+                    (self.Nuf(line)-Euf)**2/Euf + \
+                    (self.Nus(line)-Eus)**2/Eus
+            return chi2
+        except ZeroDivisionError:
+            return 0.0
+    @lru_cache()
+    def M(self,line):
+        return self.chi2(line)/self.N #sqrt((row-1)*(col-1)) = 1
+    @lru_cache()
+    def phi(self,line):
+        try:
+            return self.Ncf(line)/self.Nf*self.Ns/self.Ncs(line)
+        except ZeroDivisionError:
+            return 0.0
+    @lru_cache()
+    def zeta(self,w):
+        if self.phi(w)>0: return self.M(w)
+        elif self.phi(w)<0: return -self.M(w)
+        else: return 0.0
+        
+        
+        
     def summary(self):
         #assert self.stopped
-        r = super().summary()
-        result = ()
-        if "failed" in r:
-            #print("?")
-            for i in r["failed"]:
-                #with open(i.file,"r") as f:
-                #    s = f.read()
-                j = r["failed"][i]
-                total = j
-                if "success" in r and i in r["success"]:
-                    total+=r["success"][i]
-                result[i]=[j/total]
+        super().summary()
+        result = {}
+        lines = set(reduce(lambda x,y:x+y,map(lambda x:x["lines"],self.result.values())))
+        for w in lines:
+            result[w]=(self.chi2(w),self.M(w),self.zeta(w),)
+            print(w,result[w])
+        
         #print(r)
         return result
 class TextFaultLocalizationResult(TextTestResult,FaultLocalizationResult):
@@ -176,9 +245,15 @@ class TextTarantulaResult(TextTestResult,Tarantula):
         print(r)
         return r
     pass
+class CrosstabResult(TextTestResult,Crosstab):
+    def summary(self):
+        r = super().summary()
+        print(r)
+        return r
+    pass
 class FaultTestProgram(TestProgram):
     pass
-TextTestRunner.resultclass = TextTarantulaResult
+TextTestRunner.resultclass = CrosstabResult
 __unittest = True
 if __name__ == "__main__":
     FaultTestProgram(module=None)
