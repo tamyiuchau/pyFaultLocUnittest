@@ -1,0 +1,132 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocas-ui/2.3.3/tocas.css">
+<script
+src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+crossorigin="anonymous"></script>
+<title>Debug Log</title>
+<style>
+.selectable{
+	cursor: pointer !important;
+}
+
+.selectable:hover{
+	color:blue !important;
+}
+</style>
+</head>
+<body>
+<div class="ts container">
+<br>
+<div class="ts header">
+    pyFaultlocUnittest XG21 
+    <div class="sub header">Development Build - <i class="file code outline icon"></i>(FILENAME HERE)</div>
+</div>
+<div class="ts divider"></div>
+<p>Error Report</p>
+<table class="ts table">
+    <thead>
+        <tr>
+            <th class="selectable" onClick="toggleSortMode(0);">#Line</th>
+            <th class="selectable" onClick="toggleSortMode(2);">File</th>
+            <th class="selectable" onClick="toggleSortMode(4);">Hue</th>
+        </tr>
+    </thead>
+    <tbody id="tableContent">
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="3">Total Error Count: <div id="errorCount" style="display:inline;"></div></th>
+        </tr>
+    </tfoot>
+</table>
+<details class="ts accordion">
+    <summary>
+        <i class="dropdown icon"></i> Raw Output from Debugger
+    </summary>
+    <div class="content">
+        <p id="rawlog">
+		{Line(file='C:\\Users\\Toby Chui\\Desktop\\PolyU\\Year3 Sem1\\COMP3211 Software Engineering\\gp\\pyFaultLocUnittest-master\\test\\<frozen importlib._bootstrap>' , line=2251): (2.0, 1.0, 0.0), Line(file='C:\\Users\\Toby Chui\\Desktop\\PolyU\\ Year3 Sem1\\COMP3211 Software Engineering\\gp\\pyFaultLocUnittest-master\\test\\ <frozen importlib._bootstrap>', line=2270): (2.0, 1.0, 0.0), Line(file='C:\\User s\\Toby Chui\\Desktop\\PolyU\\Year3 Sem1\\COMP3211 Software Engineering\\gp\\pyF aultLocUnittest-master\\test\\test_test.py', line=10): (2.0, 1.0, 0.0), Line(fil e='C:\\Python34\\lib\\encodings\\__init__.py', line=118): (2.0, 1.0, 0.0), Line( file='C:\\Users\\Toby Chui\\Desktop\\PolyU\\Year3 Sem1\\COMP3211 Software Engine ering\\gp\\pyFaultLocUnittest-master\\test\\test_test.py', line=9): (2.0, 1.0, 0 .0), Line(file='C:\\Users\\Toby Chui\\Desktop\\PolyU\\Year3 Sem1\\COMP3211 Softw are Engineering\\gp\\pyFaultLocUnittest-master\\test\\test_test.py', line=14): ( 2.0, 1.0, 0.0), Line(file='C:\\Python34\\lib\\encodings\\__init__.py', line=112) : (2.0, 1.0, 0.0), Line(file='C:\\Users\\Toby Chui\\Desktop\\PolyU\\Year3 Sem1\\ COMP3211 Software Engineering\\gp\\pyFaultLocUnittest-master\\test\\test_test.py ', line=15): (2.0, 1.0, 0.0), Line(file='C:\\Python34\\lib\\encodings\\__init__. py', line=102): (2.0, 1.0, 0.0), Line(file='C:\\Python34\\lib\\encodings\\__init __.py', line=107): (2.0, 1.0, 0.0), Line(file='C:\\Users\\Toby Chui\\Desktop\\Po lyU\\Year3 Sem1\\COMP3211 Software Engineering\\gp\\pyFaultLocUnittest-master\\t est\\test_test.py', line=5): (0.0, 0.0, 0.0), Line(file='C:\\Python34\\lib\\enco dings\\__init__.py', line=106): (2.0, 1.0, 0.0)}
+		</p>
+    </div>
+</details>
+<div class="ts divider"></div>
+Developed for Software Engineering Course Project<br>
+Project written by Group 21
+</div>
+<script>
+var errorlog = [["C:/Users/Toby Chui/Desktop/PolyU/Year3 Sem1/COMP3211 Software Engineering/gp/pyFaultLocUnittest-master/test/test_test.py", 10, [2.0, 1.0, 0.0]], ["C:/Python34/lib/encodings/__init__.py", 118, [2.0, 1.0, 0.0]], ["C:/Users/Toby Chui/Desktop/PolyU/Year3 Sem1/COMP3211 Software Engineering/gp/pyFaultLocUnittest-master/test/test_test.py", 9, [2.0, 1.0, 0.0]], ["C:/Users/TobyChui/Desktop/PolyU/Year3 Sem1/COMP3211 Software Engineering/gp/pyFaultLocUnittest-master/test/test_test.py", 5, [0.0, 0.0, 0.0]], ["C:/Users/Toby Chui/Desktop/PolyU/Year3 Sem1/COMP3211 Software Engineering/gp/pyFaultLocUnittest-master/test/test_test.py", 15, [2.0, 1.0, 0.0]], ["C:/Users/Toby Chui/Desktop/PolyU/Year3 Sem1/COMP3211 Software Engineering/gp/pyFaultLocUnittest-master/test/test_test.py", 14, [2.0, 1.0, 0.0]], ["C:/Python34/lib/encodings/__init__.py", 106, [2.0, 1.0, 0.0]], ["C:/Python34/lib/encodings/__init__.py", 107, [2.0, 1.0, 0.0]], ["C:/Python34/lib/encodings/__init__.py", 102, [2.0, 1.0, 0.0]], ["C:/Users/Toby Chui/Desktop/PolyU/Year3 Sem1/COMP3211Software Engineering/gp/pyFaultLocUnittest-master/test/<frozen importlib._bootstrap>", 2270, [2.0, 1.0, 0.0]], ["C:/Python34/lib/encodings/__init__.py", 112, [2.0, 1.0, 0.0]], ["C:/Users/Toby Chui/Desktop/PolyU/Year3 Sem1/COMP3211 Software Engineering/gp/pyFaultLocUnittest-master/test/<frozen importlib._bootstrap>", 2251, [2.0, 1.0, 0.0]]];
+//$("#rawlog").html(errorlog);
+initTable();
+var sortMode = 0;
+
+function toggleSortMode(target){
+	if (target == 0){
+		if (sortMode == 0){
+			sortMode = 1;
+		}else{
+			sortMode = 0;
+		}
+	}else if (target == 2){
+		if (sortMode == 2){
+			sortMode = 3;
+		}else{
+			sortMode = 2;
+		}
+	}else if (target == 4){
+			sortMode = 4;
+	}
+	initTable(sortMode);
+	//console.log(sortMode);
+}
+
+function initTable(sortmode = 0){
+	var b = $.extend(true, [], errorlog);
+	//b is a copy of errorlog we can work on sorting and changing things inside it
+	switch (sortmode){
+		case 0:
+			b.sort((a,b) => a[1] > b[1]);
+			drawTable(b);
+			break;
+		case 1:
+			b.sort((a,b) => a[1] < b[1]);
+			drawTable(b);
+			break;
+		case 2:
+			b.sort((a,b) => a[0].toUpperCase().localeCompare(b[0].toUpperCase()));
+			drawTable(b);
+			break;
+		case 3:
+			b.sort((a,b) => a[0].toUpperCase().localeCompare(b[0].toUpperCase()));
+			b.reverse();
+			drawTable(b);
+			break;
+		case 4:
+			b.sort((a,b) => a[2][0] > a[2][0]);
+			drawTable(b);
+			break;
+		
+		
+	}
+}
+
+function drawTable(arr){
+	$("#tableContent").html("");
+	var template = '<tr>\
+            <td>%linenumber%</td>\
+            <td>%filepath%</td>\
+            <td>%hue%</td>\
+        </tr>';
+	for (var i = 0; i < arr.length; i++){
+		var box = template;
+		box = box.replace("%linenumber%",arr[i][1]);
+		box = box.replace("%filepath%",arr[i][0]);
+		box = box.replace("%hue%",arr[i][2]);
+		$("#tableContent").append(box);
+	}
+	$("#errorCount").html(arr.length);
+}
+</script>
+</body>
+</html>
