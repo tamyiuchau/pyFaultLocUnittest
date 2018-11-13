@@ -8,6 +8,7 @@ from importlib.util import find_spec
 from functools import reduce,lru_cache
 from itertools import groupby
 from collections import Counter
+import json
 
 Line = namedtuple("Line","file line")
 #TestResult = namedtuple("TestResult","lines status")
@@ -242,13 +243,15 @@ class TextFaultLocalizationResult(TextTestResult,FaultLocalizationResult):
 class TextTarantulaResult(TextTestResult,Tarantula):
     def summary(self):
         r = super().summary()
-        print(r)
+        #print(r)
+        print(json.dumps(list(map(lambda x: [x[0].file,x[0].line,x[1]],r.items()))))
         return r
     pass
 class CrosstabResult(TextTestResult,Crosstab):
     def summary(self):
         r = super().summary()
-        print(r)
+        #print(r)
+        print(json.dumps(list(map(lambda x: [x[0].file,x[0].line,x[1]],r.items()))))
         return r
     pass
 class FaultTestProgram(TestProgram):
