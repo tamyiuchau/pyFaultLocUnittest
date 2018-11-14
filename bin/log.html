@@ -1,10 +1,14 @@
 <html>
 <head>
+<script>
+var importResult = ;
+</script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocas-ui/2.3.3/tocas.css">
 <script
-src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
-crossorigin="anonymous"></script>
+			  src="https://code.jquery.com/jquery-3.3.1.min.js"
+			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			  crossorigin="anonymous"></script>
+		
 <title>Debug Log</title>
 <style>
 .selectable{
@@ -21,7 +25,7 @@ crossorigin="anonymous"></script>
 <br>
 <div class="ts header">
     pyFaultlocUnittest XG21 
-    <div class="sub header">Development Build - <i class="file code outline icon"></i>(FILENAME HERE)</div>
+    <div class="sub header"><i class="file code outline icon"></i>Development Build</div>
 </div>
 <div class="ts divider"></div>
 <p>Error Report (Click item to sort)</p>
@@ -30,7 +34,7 @@ crossorigin="anonymous"></script>
         <tr>
             <th class="selectable" onClick="toggleSortMode(0);">#Line</th>
             <th class="selectable" onClick="toggleSortMode(2);">File</th>
-            <th class="selectable" onClick="toggleSortMode(4);">Hue</th>
+            <th class="selectable" onClick="toggleSortMode(4);">Hue (chi2, phi, sigma)</th>
         </tr>
     </thead>
     <tbody id="tableContent">
@@ -54,11 +58,14 @@ Developed for Software Engineering Course Project<br>
 Project written by Group 21
 </div>
 <script>
-var errorlog = [["C:/Users/Toby Chui/Desktop/PolyU/Year3 Sem1/COMP3211 Software Engineering/gp/pyFaultLocUnittest-master/test/test_test.py", 10, [2.0, 1.0, 0.0]], ["C:/Python34/lib/encodings/__init__.py", 118, [2.0, 1.0, 0.0]], ["C:/Users/Toby Chui/Desktop/PolyU/Year3 Sem1/COMP3211 Software Engineering/gp/pyFaultLocUnittest-master/test/test_test.py", 9, [2.0, 1.0, 0.0]], ["C:/Users/TobyChui/Desktop/PolyU/Year3 Sem1/COMP3211 Software Engineering/gp/pyFaultLocUnittest-master/test/test_test.py", 5, [0.0, 0.0, 0.0]], ["C:/Users/Toby Chui/Desktop/PolyU/Year3 Sem1/COMP3211 Software Engineering/gp/pyFaultLocUnittest-master/test/test_test.py", 15, [2.0, 1.0, 0.0]], ["C:/Users/Toby Chui/Desktop/PolyU/Year3 Sem1/COMP3211 Software Engineering/gp/pyFaultLocUnittest-master/test/test_test.py", 14, [2.0, 1.0, 0.0]], ["C:/Python34/lib/encodings/__init__.py", 106, [2.0, 1.0, 0.0]], ["C:/Python34/lib/encodings/__init__.py", 107, [2.0, 1.0, 0.0]], ["C:/Python34/lib/encodings/__init__.py", 102, [2.0, 1.0, 0.0]], ["C:/Users/Toby Chui/Desktop/PolyU/Year3 Sem1/COMP3211Software Engineering/gp/pyFaultLocUnittest-master/test/<frozen importlib._bootstrap>", 2270, [2.0, 1.0, 0.0]], ["C:/Python34/lib/encodings/__init__.py", 112, [2.0, 1.0, 0.0]], ["C:/Users/Toby Chui/Desktop/PolyU/Year3 Sem1/COMP3211 Software Engineering/gp/pyFaultLocUnittest-master/test/<frozen importlib._bootstrap>", 2251, [2.0, 1.0, 0.0]]];
-$("#rawlog").html(JSON.stringify(errorlog));
-initTable();
-var sortMode = 0;
-
+if (typeof importResult === 'undefined'){
+	alert("Error. Please generate this document with the given debugger.");
+}else{
+	var errorlog = importResult;
+	initTable();
+	var sortMode = 0;
+	$("#rawlog").html(JSON.stringify(errorlog));
+}
 function toggleSortMode(target){
 	if (target == 0){
 		if (sortMode == 0){
@@ -124,12 +131,6 @@ function drawTable(arr){
 		$("#tableContent").append(box);
 	}
 	$("#errorCount").html(arr.length);
-}
-
-function loadErrorReport(){
-	$.get( "report.json", function( data ) {
-	  var errorlog = data;
-	});
 }
 </script>
 </body>

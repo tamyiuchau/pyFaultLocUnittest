@@ -254,6 +254,7 @@ class CrosstabResult(TextTestResult,Crosstab):
         print(json.dumps(list(map(lambda x: [x[0].file,x[0].line,x[1]],r.items()))))
         return r
     pass
+	
 class FaultTestProgram(TestProgram):
     pass
 TextTestRunner.resultclass = CrosstabResult
