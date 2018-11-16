@@ -4,6 +4,7 @@ import sys
 import inspect
 import os
 import os.path
+import reportGen
 from importlib.util import find_spec
 from functools import reduce,lru_cache
 from itertools import groupby
@@ -238,6 +239,14 @@ class Crosstab(FaultLocalizationResult):
         
         #print(r)
         return result
+class HttpTestResult(TextTestResult):
+    def wasSuccessful(self):
+        r = self.summary()
+        output = reportGen.httpTemplate()
+        for i in map(lambda x: [x[0].file,x[0].line,x[1]],r.items()):
+            output.appendResult(*i)
+        output.digest()
+        return super().wasSuccessful()
 class TextFaultLocalizationResult(TextTestResult,FaultLocalizationResult):
     pass
 class TextTarantulaResult(TextTestResult,Tarantula):
@@ -247,17 +256,15 @@ class TextTarantulaResult(TextTestResult,Tarantula):
         print(json.dumps(list(map(lambda x: [x[0].file,x[0].line,x[1]],r.items()))))
         return r
     pass
-class CrosstabResult(TextTestResult,Crosstab):
+class CrosstabResult(HttpTestResult,TextTestResult,Crosstab):
     def summary(self):
         r = super().summary()
         #print(r)
         print(json.dumps(list(map(lambda x: [x[0].file,x[0].line,x[1]],r.items()))))
         return r
     pass
-	
-class FaultTestProgram(TestProgram):
-    pass
+
 TextTestRunner.resultclass = CrosstabResult
 __unittest = True
 if __name__ == "__main__":
-    FaultTestProgram(module=None)
+    TestProgram(module=None)

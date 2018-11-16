@@ -1,5 +1,6 @@
 import os,sys
 dir_path = os.getcwd()
+import json
 templateA ='''
 <html>
 <head>
@@ -126,13 +127,13 @@ function drawTable(arr){
 	$("#tableContent").html("");
 	var template = '<tr>\
             <td>%linenumber%</td>\
-            <td>%filepath%</td>\
+            <td><pre>%filepath%</pre></td>\
             <td>%hue%</td>\
         </tr>';
 	for (var i = 0; i < arr.length; i++){
 		var box = template;
-		box = box.replace("%linenumber%",arr[i][1]);
-		box = box.replace("%filepath%",arr[i][0]);
+		box = box.replace("%linenumber%",arr[i][0]);
+		box = box.replace("%filepath%",arr[i][1]);
 		box = box.replace("%hue%",arr[i][2]);
 		$("#tableContent").append(box);
 	}
@@ -141,13 +142,35 @@ function drawTable(arr){
 </script>
 </body>
 </html>'''
-
-if (len(sys.argv) > 1):
-    json = ( sys.argv[1])
-    infile = open(dir_path + "\\" + json,"r")
-    content = infile.read()
-    ef = open(dir_path + "\\errorReport.html","w");
-    ef.write(templateA + content + templateB)
-    ef.close()
-else:
-    print("Not enough variable. Usage: genReport.py error.json")
+class httpTemplate:
+    def __init__(self):
+        self.files = dict()
+        
+    def loadFile(self,fileName):
+        lines = []
+        self.files[fileName] = lines
+        with open(fileName,"r") as f:
+            for i,l in enumerate(f):
+                lines.append([i,l,(0,0,0)])
+    def appendResult(self,file,line,suspicious):
+        if not file in self.files:
+            self.loadFile(file)
+        #print(line,len(self.files[file])
+        self.files[file][int(line)-1][2] = suspicious
+    def digest(self):
+        for i in self.files:
+            filepath = os.path.join("testResult",os.path.relpath(i)+".html")
+            content = json.dumps(self.files[i])
+            os.makedirs(os.path.dirname(filepath),exist_ok=True)
+            with open(filepath,"w") as f:
+                f.write(templateA + content + templateB)
+if __name__ == "__main__":
+    if (len(sys.argv) > 1):
+        json = ( sys.argv[1])
+        infile = open(dir_path + "\\" + json,"r")
+        content = infile.read()
+        ef = open(dir_path + "\\errorReport.html","w");
+        ef.write(templateA + content + templateB)
+        ef.close()
+    else:
+        print("Not enough variable. Usage: genReport.py error.json")
