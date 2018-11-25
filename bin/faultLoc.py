@@ -249,7 +249,7 @@ class HttpTestResult(TextTestResult):
         return super().wasSuccessful()
 class TextFaultLocalizationResult(TextTestResult,FaultLocalizationResult):
     pass
-class TextTarantulaResult(TextTestResult,Tarantula):
+class TarantulaResult(HttpTestResult,TextTestResult,Tarantula):
     def summary(self):
         r = super().summary()
         #print(r)
@@ -264,7 +264,7 @@ class CrosstabResult(HttpTestResult,TextTestResult,Crosstab):
         return r
     pass
 
-TextTestRunner.resultclass = CrosstabResult
+TextTestRunner.resultclass = TarantulaResult
 __unittest = True
 if __name__ == "__main__":
     TestProgram(module=None)

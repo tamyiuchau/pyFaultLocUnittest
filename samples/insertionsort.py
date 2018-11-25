@@ -8,7 +8,7 @@ def insertion_sort(InputList):
             InputList[j+1] = InputList[j]
             j=j-1
         InputList[j+1] = nxt_element
-
-list = [19,2,31,45,30,11,121,27]
-insertion_sort(list)
-print(list)
+if __name__ == "__main__":
+    l = [19,2,31,45,30,11,121,27]
+    insertion_sort(l)
+    print(l)

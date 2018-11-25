@@ -27,7 +27,6 @@ def merge(left_half,right_half):
     else:
         res = res + left_half
     return res
-
-unsorted_list = [64, 34, 25, 12, 22, 11, 90]
-
-print(merge_sort(unsorted_list))
+if __name__=="__main__":
+    unsorted_list = [64, 34, 25, 12, 22, 11, 90]
+    print(merge_sort(unsorted_list))

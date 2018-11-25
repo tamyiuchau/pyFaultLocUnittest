@@ -9,8 +9,9 @@ def selection_sort(input_list):
 # Swap the minimum value with the compared value
 
         input_list[idx], input_list[min_idx] = input_list[min_idx], input_list[idx]
+    return input_list
 
-
-l = [19,2,31,45,30,11,121,27]
-selection_sort(l)
-print(l)
+if __name__ == "__main__":
+    l = [19,2,31,45,30,11,121,27]
+    selection_sort(l)
+    print(l)
