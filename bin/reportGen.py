@@ -153,6 +153,7 @@ class httpTemplate:
             for i,l in enumerate(f):
                 lines.append([i,l,(0,0,0)])
     def appendResult(self,file,line,suspicious):
+        if not os.path.isfile(file):return
         if not file in self.files:
             self.loadFile(file)
         #print(line,len(self.files[file])
