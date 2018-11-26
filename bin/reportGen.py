@@ -98,19 +98,19 @@ function initTable(sortmode = 0){
 	//b is a copy of errorlog we can work on sorting and changing things inside it
 	switch (sortmode){
 		case 0:
-			b.sort((a,b) => a[1] > b[1]);
+			b.sort((a,b) => a[0] > b[0]);
 			drawTable(b);
 			break;
 		case 1:
-			b.sort((a,b) => a[1] < b[1]);
+			b.sort((a,b) => a[0] < b[0]);
 			drawTable(b);
 			break;
 		case 2:
-			b.sort((a,b) => a[0].toUpperCase().localeCompare(b[0].toUpperCase()));
+			b.sort((a,b) => a[1].toUpperCase().localeCompare(b[1].toUpperCase()));
 			drawTable(b);
 			break;
 		case 3:
-			b.sort((a,b) => a[0].toUpperCase().localeCompare(b[0].toUpperCase()));
+			b.sort((a,b) => a[1].toUpperCase().localeCompare(b[1].toUpperCase()));
 			b.reverse();
 			drawTable(b);
 			break;
