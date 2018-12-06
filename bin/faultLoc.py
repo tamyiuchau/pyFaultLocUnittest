@@ -267,8 +267,19 @@ class CrosstabResult(HttpTestResult,TextTestResult,Crosstab):
         print(json.dumps(list(map(lambda x: [x[0].file,x[0].line,x[1]],r.items()))))
         return r
     pass
-
-TextTestRunner.resultclass = TarantulaResult
-#__unittest = True
+class FaultTestProgram(TestProgram):
+    def _getParentArgParser(self):
+        parser = super()._getParentArgParser()
+        parser.add_argument("-r","--run",dest="resultclassName",type=str)
+        return parser
+    def runTests(self):
+        if self.testRunner is None:
+            self.testRunner = TextTestRunner
+            if self.resultclassName is None:
+                self.testRunner.resultclass = TarantulaResult
+            else:
+                self.testRunner.resultclass = {"tarantula":TarantulaResult,"crosstab":CrosstabResult}[self.resultclassName]
+        return super().runTests()
+__unittest = True
 if __name__ == "__main__":
-    TestProgram(module=None)
+    FaultTestProgram(module=None)
