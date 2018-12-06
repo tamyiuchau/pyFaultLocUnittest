@@ -4,13 +4,13 @@ It is a drop-in implementation of two fault localization technique,"tarantula" a
 #How to use
 ```
 cd test
-python ../bin/faultLoc.python
+python ../bin/faultLoc.py
 ```
 
 #Hot to generate report
 ```
 cd test
-python ../bin/faultLoc.python -s crosstab > result.json
+python ../bin/faultLoc.py -s crosstab > result.json
 python ../bin/reportGen.py result.json
 ```
 Open the newly generated errorReport.html file and the result of debugger is shown.
