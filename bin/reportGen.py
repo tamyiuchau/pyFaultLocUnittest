@@ -39,9 +39,9 @@ templateB = '''
 <table class="ts table">
     <thead>
         <tr>
-            <th class="selectable" onClick="toggleSortMode(0);">#Line</th>
-            <th class="selectable" onClick="toggleSortMode(2);">File</th>
-            <th class="selectable" onClick="toggleSortMode(4);">Hue (chi2, phi, sigma)</th>
+            <th class="selectable" onClick="toggleSortMode(0);">Line#</th>
+            <th class="selectable" onClick="toggleSortMode(2);">Line</th>
+            <th class="selectable" onClick="toggleSortMode(4);">Result</th>
         </tr>
     </thead>
     <tbody id="tableContent">
@@ -65,6 +65,7 @@ Developed for Software Engineering Course Project<br>
 Project written by Group 21
 </div>
 <script>
+//This script is Firefox only :))
 if (typeof importResult === 'undefined'){
 	alert("Error. Please generate this document with the given debugger.");
 }else{
