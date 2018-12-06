@@ -15,6 +15,7 @@ class SortTestCase(unittest.TestCase):
             for ith in range(self.size):
                 l2.append(random.getrandbits(64))
             self.assertEqual(list(sorted(l2)),self.algorithm(l2))
+            #self.assertEqual(True,False)
     def test_randomShuffle(self):
         for _ in range(self.iterations):#iterations
             l1 = list(range(self.size))
@@ -27,9 +28,9 @@ class SortTestCase(unittest.TestCase):
         self.assertEqual(l1,self.algorithm(l2))
 class BubbleTestCase(SortTestCase):
     algorithm = staticmethod(bubble_sort)
-class BubbleTestCase(SortTestCase):
+class InsertionTestCase(SortTestCase):
     algorithm = staticmethod(insertion_sort)
-class BubbleTestCase(SortTestCase):
+class MergeTestCase(SortTestCase):
     algorithm = staticmethod(merge_sort)
-class BubbleTestCase(SortTestCase):
+class SelectionTestCase(SortTestCase):
     algorithm = staticmethod(selection_sort)

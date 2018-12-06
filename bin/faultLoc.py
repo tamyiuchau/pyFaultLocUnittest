@@ -150,7 +150,10 @@ class Tarantula(FaultLocalizationResult):
                 total = j
                 if "success" in r and i in r["success"]:
                     total+=r["success"][i]
-                result[i]=j/total
+                if total == 0:
+                    result[i]=0
+                else:
+                    result[i]=j/total
         #print(r)
         return result
 class Crosstab(FaultLocalizationResult):
@@ -204,10 +207,11 @@ class Crosstab(FaultLocalizationResult):
             Ecs = self.Nc(line)*self.Ns/self.N
             Euf = self.Nu(line)*self.Nf/self.N
             Eus = self.Nu(line)*self.Ns/self.N
-            chi2 =  (self.Ncf(line)-Ecf)**2/Ecf + \
-                    (self.Ncs(line)-Ecs)**2/Ecs + \
-                    (self.Nuf(line)-Euf)**2/Euf + \
-                    (self.Nus(line)-Eus)**2/Eus
+            chi2 = 0.0
+            if Ecf != 0.0: chi2 += (self.Ncf(line)-Ecf)**2/Ecf
+            if Ecs != 0.0: chi2 += (self.Ncs(line)-Ecs)**2/Ecs
+            if Euf != 0.0: chi2 += (self.Nuf(line)-Euf)**2/Euf
+            if Eus != 0.0: chi2 += (self.Nus(line)-Eus)**2/Eus
             return chi2
         except ZeroDivisionError:
             return 0.0
@@ -265,6 +269,6 @@ class CrosstabResult(HttpTestResult,TextTestResult,Crosstab):
     pass
 
 TextTestRunner.resultclass = TarantulaResult
-__unittest = True
+#__unittest = True
 if __name__ == "__main__":
     TestProgram(module=None)
