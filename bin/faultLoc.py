@@ -4,7 +4,7 @@ import sys
 import inspect
 import os
 import os.path
-import reportGen
+from . import reportGen
 from importlib.util import find_spec
 from functools import reduce,lru_cache
 from itertools import groupby
@@ -151,7 +151,7 @@ class Tarantula(FaultLocalizationResult):
                 if "success" in r and i in r["success"]:
                     total+=r["success"][i]
                 if total == 0:
-                    result[i]=0
+                    result[i]=0.0
                 else:
                     result[i]=j/total
         #print(r)
@@ -239,7 +239,7 @@ class Crosstab(FaultLocalizationResult):
         lines = set(reduce(lambda x,y:x+y,map(lambda x:x["lines"],self.result.values())))
         for w in lines:
             result[w]=(self.chi2(w),self.M(w),self.zeta(w),)
-            print(w,result[w])
+            #print(w,result[w])
         
         #print(r)
         return result
@@ -276,7 +276,7 @@ class FaultTestProgram(TestProgram):
         if self.testRunner is None:
             self.testRunner = TextTestRunner
             if self.resultclassName is None:
-                self.testRunner.resultclass = TarantulaResult
+                self.testRunner.resultclass = CrosstabResult
             else:
                 self.testRunner.resultclass = {"tarantula":TarantulaResult,"crosstab":CrosstabResult}[self.resultclassName]
         return super().runTests()

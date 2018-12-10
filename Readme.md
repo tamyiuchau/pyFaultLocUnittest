@@ -1,19 +1,20 @@
 #What is it
-It is a drop-in implementation of two fault localization technique,"tarantula" and "Crosstab", on top of python standard unittest.
-
+It is a drop-in implementation of two fault localization technique,"tarantula" and "crosstab", on top of python standard unittest.
+#How to install
+```
+pip install .
+```
 #How to use
 ```
-cd test
-python ../bin/faultLoc.py
+python -m faultLoc -r tarantula
 ```
 
 #Hot to generate report
 ```
 cd test
-python ../bin/faultLoc.py -s crosstab > result.json
-python ../bin/reportGen.py result.json
+python -m faultLoc -r crosstab #generated
 ```
 Open the newly generated errorReport.html file and the result of debugger is shown.
 
 #How to sort the result
-Press on the title of each column to change the sorting method (Line / File / Hue (chi2, phi, sigma)).
+Press on the title of each column to change the sorting method (Line / File / Result (chi2, phi, sigma)).
