@@ -1,7 +1,7 @@
-from .bubblesort import bubblesort as bubble_sort
-from .insertionsort import insertion_sort
-from .mergesort import merge_sort
-from .selectionsort import selection_sort
+from bubblesort import bubblesort as bubble_sort
+from insertionsort import insertion_sort
+from mergesort import merge_sort
+from selectionsort import selection_sort
 import random
 
 import unittest
