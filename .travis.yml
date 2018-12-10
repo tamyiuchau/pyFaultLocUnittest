@@ -4,5 +4,7 @@ python:
 cache: pip
 install:
   - pip install .
+before_script: 
+  - cd samples
 script:
   - python -m faultLoc sample
