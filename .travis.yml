@@ -7,4 +7,4 @@ install:
 before_script: 
   - cd samples
 script:
-  - python -m faultLoc sample
+  - python -m faultLoc
