@@ -142,18 +142,27 @@ class Tarantula(FaultLocalizationResult):
         r = super().summary()
         result = {}
         if "failed" in r:
-            #print("?")
+            total_f = 0.0
             for i in r["failed"]:
-                #with open(i.file,"r") as f:
-                #    s = f.read()
-                j = r["failed"][i]
-                total = j
+                total_f += r["failed"][i]
+            total_s = 0.0
+            if "success" in r:
+                for i in r["success"]:
+                    total_s = r["success"][i]
+            for i in r["failed"]:
+                f = r["failed"][i]
+                s = 0.0
                 if "success" in r and i in r["success"]:
-                    total+=r["success"][i]
-                if total == 0:
-                    result[i]=0.0
+                    s=r["success"][i]
+                if total_f == 0.0:
+                    f_tf = 0.0
                 else:
-                    result[i]=j/total
+                    f_tf = f/total_f
+                if total_s == 0.0:
+                    s_ts = 0.0
+                else:
+                    s_ts = s/total_s
+                result[i]=f_tf/(f_tf+s_ts)
         #print(r)
         return result
 class Crosstab(FaultLocalizationResult):
