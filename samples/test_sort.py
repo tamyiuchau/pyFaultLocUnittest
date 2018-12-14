@@ -9,6 +9,10 @@ class SortTestCase(unittest.TestCase):
     algorithm = staticmethod(lambda x: sorted(x))
     iterations = 100
     size = 100
+    def test_correct(self):
+        l1 = list(range(self.size))
+        l2 = list(range(self.size))
+        self.assertEqual(l1,self.algorithm(l2))
     def test_random(self):
         for _ in range(self.iterations):
             l2 = []
