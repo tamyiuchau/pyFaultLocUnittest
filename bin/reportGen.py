@@ -124,6 +124,17 @@ function initTable(sortmode = 0){
 	}
 }
 
+
+function escapeHtml(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+ }
+
+
 function drawTable(arr){
 	$("#tableContent").html("");
 	var template = '<tr>\
@@ -134,7 +145,7 @@ function drawTable(arr){
 	for (var i = 0; i < arr.length; i++){
 		var box = template;
 		box = box.replace("%linenumber%",arr[i][0]);
-		box = box.replace("%filepath%",arr[i][1]);
+		box = box.replace("%filepath%",escapeHtml(arr[i][1]));
 		box = box.replace("%hue%",arr[i][2]);
 		$("#tableContent").append(box);
 	}
