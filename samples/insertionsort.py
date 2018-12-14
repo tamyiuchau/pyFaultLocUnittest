@@ -3,11 +3,11 @@ def insertion_sort(InputList):
         j = i-1
         nxt_element = InputList[i]
 # Compare the current element with next one
-		
         while (InputList[j] > nxt_element) and (j >= 0):
             InputList[j+1] = InputList[j]
             j=j-1
         InputList[j+1] = nxt_element
+	return InputList
 if __name__ == "__main__":
     l = [19,2,31,45,30,11,121,27]
     insertion_sort(l)
